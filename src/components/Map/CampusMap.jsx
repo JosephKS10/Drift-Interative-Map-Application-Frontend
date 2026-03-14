@@ -82,6 +82,8 @@ function AgentCard({ agent, proximity, onClose }) {
           </div>
         </div>
 
+        
+
         {/* ── Body ── */}
         <div className="px-5 pt-4 pb-5 space-y-4">
           {/* Name & handle */}

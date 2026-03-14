@@ -11,10 +11,26 @@ const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || "YOUR_MAPBOX_TOKEN_HER
 function AgentCard({ agent, proximity, onClose }) {
   if (!agent) return null;
 
-  const proximityLabel =
-    proximity === "near" ? "Nearby" : proximity === "mid" ? "Close" : "Far away";
+  const proximityZone = proximity?.zone;
+  const proximityDistance = proximity?.distance;
+
+  const statusColor =
+    proximityZone === "intimate"
+      ? "bg-green-400"
+      : proximityZone === "nearby" || proximityZone === "vicinity"
+      ? "bg-yellow-400"
+      : "bg-slate-400";
+
   const proximityColor =
-    proximity === "near" ? "#34d399" : proximity === "mid" ? "#fbbf24" : "#94a3b8";
+    proximityZone === "intimate"
+      ? "#4ade80"
+      : proximityZone === "nearby" || proximityZone === "vicinity"
+      ? "#facc15"
+      : "#94a3b8";
+
+  const proximityLabel = proximityZone
+    ? `${proximityZone}${typeof proximityDistance === "number" ? ` · ${Math.round(proximityDistance)}m` : ""}`
+    : "Far Away";
 
   return (
     <div
@@ -41,17 +57,19 @@ function AgentCard({ agent, proximity, onClose }) {
           >✕</button>
         </div>
 
-        {agent.bio && (
-          <p className="text-xs text-white/45 leading-relaxed mt-2.5 line-clamp-2">{agent.bio}</p>
-        )}
+      {agent.avatarUrl && (
+        <img
+          src={agent.avatarUrl}
+          className="rounded-xl w-full h-40 object-cover"
+        />
+      )}
 
-        <div className="mt-3 rounded-xl overflow-hidden border border-white/10">
-          <img
-            src="https://res.cloudinary.com/dehtc9uyy/image/upload/v1773484432/agent_qldtss.png"
-            alt={agent.name}
-            className="w-full h-auto object-cover"
-          />
-        </div>
+      <div className="flex items-center gap-2 text-sm">
+        <span className={`w-2 h-2 rounded-full ${statusColor}`} />
+        {proximityZone
+          ? `${proximityZone}${typeof proximityDistance === "number" ? ` · ${Math.round(proximityDistance)}m` : ""}`
+          : "Far Away"}
+      </div>
 
         <div className="flex gap-2 mt-3">
           <button className="flex-1 py-1.5 rounded-xl text-xs font-medium text-white/88 border border-white/10 cursor-pointer transition-all duration-150 hover:bg-white/16"
@@ -551,9 +569,21 @@ function SuggestionsPanel({ placesData, isTyping }) {
   );
 }
 
-/* ── Main ────────────────────────────── */
-export default function CampusMap({ onAgentClick, placesData, isTyping }) {
-  const { campus, agents, userLocation, proximityData, chatOpen, openChat, closeChat, activeAgent } = useDrift();
+/* ─────────────────────────────
+   MAIN MAP
+───────────────────────────── */
+
+export default function CampusMap({ onAgentClick, onMapClick, placesData, isTyping }) {
+
+  const {
+    campus,
+    agents,
+    userLocation,
+    proximityData,
+    chatOpen,
+    closeChat,
+    activeAgent
+  } = useDrift();
 
   const [viewState, setViewState] = useState({
     latitude: campus?.center?.lat || -37.8136,
@@ -562,16 +592,29 @@ export default function CampusMap({ onAgentClick, placesData, isTyping }) {
     pitch: 30,
   });
 
-  const handleAgentClick = useCallback((agentId) => {
-    openChat(agentId);
-    if (onAgentClick) onAgentClick(agentId);
-  }, [openChat, onAgentClick]);
+  const handleAgentClick = useCallback(
+    (agentId) => {
+      if (onAgentClick) onAgentClick(agentId);
+    },
+    [onAgentClick]
+  );
+
+  const handleMapClick = useCallback(
+    (event) => {
+      if (!onMapClick) return;
+
+      const { lat, lng } = event.lngLat;
+      onMapClick(lat, lng);
+    },
+    [onMapClick]
+  );
 
   return (
     <div className="relative w-full h-full">
       <Map
         {...viewState}
         onMove={(e) => setViewState(e.viewState)}
+        onClick={handleMapClick} 
         mapboxAccessToken={MAPBOX_TOKEN}
         mapStyle={campus?.mapboxStyle || "mapbox://styles/mapbox/dark-v11"}
         style={{ width: "100%", height: "100%" }}
@@ -580,7 +623,12 @@ export default function CampusMap({ onAgentClick, placesData, isTyping }) {
 
         {agents.map((agent) => (
           <Marker key={agent.id} latitude={agent.location.lat} longitude={agent.location.lng} anchor="center">
-            <AgentMarker agent={agent} proximity={proximityData[agent.id]} onClick={() => handleAgentClick(agent.id)} />
+            <AgentMarker
+              agent={agent}
+              proximity={proximityData[agent.id]}
+              zoom={viewState.zoom}
+              onClick={() => handleAgentClick(agent.id)}
+            />
           </Marker>
         ))}
 

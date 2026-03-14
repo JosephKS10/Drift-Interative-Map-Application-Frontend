@@ -1,3 +1,10 @@
+import businessmanStand from "../assets/lottie/businessman-stand-with-arms-crossed.json";
+import businessmanThinking from "../assets/lottie/businessman-thinking.json";
+import businessmanWaving from "../assets/lottie/businessman-waving.json";
+import salesmanStand from "../assets/lottie/salesman-stand-with-arms-crossed.json";
+import salesmanThinking from "../assets/lottie/salesman-thinking.json";
+import salesmanWaving from "../assets/lottie/salesman-waving.json";
+
 /**
  * Agent visual asset utilities.
  *
@@ -95,4 +102,32 @@ export const AGENT_COLORS = {
 
 export function getAgentColor(agentId) {
   return AGENT_COLORS[agentId] || "#94a3b8";
+}
+
+const AGENT_MARKER_ANIMATIONS = {
+  "agent-arjun": {
+    default: businessmanStand,
+    thinking: businessmanThinking,
+    waving: businessmanWaving,
+  },
+  "agent-zoe": {
+    default: salesmanStand,
+    thinking: salesmanThinking,
+    waving: salesmanWaving,
+  },
+};
+
+export function getAgentMarkerAnimation(agentId, zone) {
+  const animations = AGENT_MARKER_ANIMATIONS[agentId];
+  if (!animations) return null;
+
+  if (zone === "intimate") {
+    return animations.waving;
+  }
+
+  if (zone === "nearby" || zone === "vicinity") {
+    return animations.thinking;
+  }
+
+  return animations.default;
 }

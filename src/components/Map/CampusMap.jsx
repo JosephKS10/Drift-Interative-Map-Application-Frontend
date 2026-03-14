@@ -588,17 +588,23 @@ function SuggestionsPanel({ placesData, isTyping }) {
    MAIN MAP
 ───────────────────────────── */
 
-export default function CampusMap({ onAgentClick, onMapClick, placesData, isTyping }) {
+export default function CampusMap({ onAgentClick, onMapClick, placesData, isTyping, filteredAgents }) {
+
 
   const {
-    campus,
-    agents,
-    userLocation,
-    proximityData,
-    chatOpen,
-    closeChat,
-    activeAgent
-  } = useDrift();
+  campus,
+  agents: driftAgents,
+  userLocation,
+  proximityData,
+  chatOpen,
+  closeChat,
+  activeAgent
+} = useDrift();
+
+// Use filtered agents if provided
+const agents = filteredAgents || driftAgents;
+
+  console.log("CampusMap render", { campus, agents, userLocation, proximityData, chatOpen, activeAgent });
 
   const [viewState, setViewState] = useState({
     latitude: campus?.center?.lat || -37.8136,

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AgentAvatar from "../Agent/AgentAvatar";
 
 export default function WaveBubble({ data, onDismiss, onClick }) {
   const [visible, setVisible] = useState(false);
@@ -25,7 +26,15 @@ export default function WaveBubble({ data, onDismiss, onClick }) {
     >
       <div className="flex items-center gap-3 bg-slate-900/90 backdrop-blur-md border border-slate-700/50 rounded-2xl px-4 py-3 max-w-xs shadow-xl shadow-black/30">
         {/* Avatar */}
-        <div className="text-2xl shrink-0">{data.avatar}</div>
+        <div className="w-10 h-10 rounded-full bg-slate-800/80 shrink-0 overflow-hidden flex items-center justify-center text-2xl">
+          <AgentAvatar
+            agentId={data.agentId}
+            avatar={data.avatar}
+            zone="intimate"
+            scale={2.05}
+            offsetY="-20%"
+          />
+        </div>
 
         <div className="min-w-0">
           {/* Name */}

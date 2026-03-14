@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchAgentProfile, fetchAgentMemories } from "../../services/api";
 import { getAgentColor, getMoodColor } from "../../utils/agentAssets";
+import AgentAvatar from "./AgentAvatar";
 
 /**
  * AgentProfile — expanded view of an agent.
@@ -42,7 +43,7 @@ export default function AgentProfile({ agentId, onClose }) {
           className="w-14 h-14 rounded-full flex items-center justify-center bg-slate-900 border-2 text-2xl"
           style={{ borderColor: agentColor }}
         >
-          {profile.avatar}
+          <AgentAvatar agentId={agentId} avatar={profile.avatar} scale={1.9} offsetY="-16%" />
         </div>
         <div>
           <div className="font-bold text-slate-100">{profile.name}</div>

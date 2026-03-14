@@ -81,8 +81,14 @@ export default function AgentMarker({ agent, proximity, onClick, zoom = 15 }) {
             className="absolute inset-0"
             style={{
               // height: isHere ? "208%" : "auto" ,
-              overflow: isHere ? "visible" : "hidden",
-              borderRadius: "50%",
+              overflow: isHere ? "clip" : "clip",
+
+              position: isHere ? "absolute" : 'fixed',
+              top: isHere ? "-80%" : "0",
+              bottom: isHere ? "0" : "0",
+              left: "0",
+              right: isHere ? "-11%" : "0",
+              borderRadius: isHere ? "0 50% 50% 0" : "50%",
             }}
           >
             <Lottie

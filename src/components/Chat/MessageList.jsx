@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import ChatBubble from "./ChatBubble";
 import TypingIndicator from "./TypingIndicator";
+import AgentAvatar from "../Agent/AgentAvatar";
 
 export default function MessageList({ messages, agent, typing, onAgentClick }) {
   const bottomRef = useRef(null);
@@ -15,7 +16,9 @@ export default function MessageList({ messages, agent, typing, onAgentClick }) {
       {/* Empty state */}
       {messages.length === 0 && !typing && (
         <div className="flex flex-col items-center justify-center h-full text-center">
-          <div className="text-3xl mb-3">{agent.avatar}</div>
+          <div className="w-14 h-14 rounded-full flex items-center justify-center bg-slate-900 border border-slate-700 text-3xl mb-3 overflow-hidden">
+            <AgentAvatar agentId={agent.id} avatar={agent.avatar} scale={1.9} offsetY="-16%" />
+          </div>
           <div className="text-slate-400 text-sm font-medium">
             {agent.name.split(" ")[0]}
           </div>

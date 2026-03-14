@@ -1,4 +1,5 @@
 import { getAgentColor } from "../../utils/agentAssets";
+import AgentAvatar from "../Agent/AgentAvatar";
 
 export default function ChatBubble({ message, agent, onAgentClick }) {
   const isUser = message.role === "user";
@@ -12,7 +13,7 @@ export default function ChatBubble({ message, agent, onAgentClick }) {
       {/* Agent avatar (left side) */}
       {!isUser && (
         <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-slate-900 border border-slate-700 text-sm mr-2 mt-1">
-          {agent.avatar}
+          <AgentAvatar agentId={agent.id} avatar={agent.avatar} scale={1.95} offsetY="-16%" />
         </div>
       )}
 

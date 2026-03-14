@@ -1,4 +1,5 @@
 import { getMoodColor, getAgentColor } from "../../utils/agentAssets";
+import AgentAvatar from "../Agent/AgentAvatar";
 
 export default function ChatHeader({ agent, onClose }) {
   const moodColor = getMoodColor(agent.mood);
@@ -14,7 +15,7 @@ export default function ChatHeader({ agent, onClose }) {
         className="w-10 h-10 rounded-full flex items-center justify-center bg-slate-900 border-2 text-xl"
         style={{ borderColor: agentColor }}
       >
-        {agent.avatar}
+        <AgentAvatar agentId={agent.id} avatar={agent.avatar} />
       </div>
 
       {/* Info */}

@@ -104,17 +104,49 @@ export function getAgentColor(agentId) {
   return AGENT_COLORS[agentId] || "#94a3b8";
 }
 
+const BUSINESSMAN_ANIMATIONS = {
+  default: businessmanStand,
+  thinking: businessmanThinking,
+  waving: businessmanWaving,
+};
+
+const SALESMAN_ANIMATIONS = {
+  default: salesmanStand,
+  thinking: salesmanThinking,
+  waving: salesmanWaving,
+};
+
 const AGENT_MARKER_ANIMATIONS = {
-  "agent-arjun": {
-    default: businessmanStand,
-    thinking: businessmanThinking,
-    waving: businessmanWaving,
-  },
-  "agent-zoe": {
-    default: salesmanStand,
-    thinking: salesmanThinking,
-    waving: salesmanWaving,
-  },
+  "agent-arjun": BUSINESSMAN_ANIMATIONS,
+  "agent-marko": BUSINESSMAN_ANIMATIONS,
+  "agent-jin": BUSINESSMAN_ANIMATIONS,
+  "agent-doug": BUSINESSMAN_ANIMATIONS,
+  "agent-vinnie": BUSINESSMAN_ANIMATIONS,
+  "agent-tram-tony": BUSINESSMAN_ANIMATIONS,
+  "agent-banksy": BUSINESSMAN_ANIMATIONS,
+  "agent-frankie": BUSINESSMAN_ANIMATIONS,
+  "agent-charlie": BUSINESSMAN_ANIMATIONS,
+  "agent-raj-m": BUSINESSMAN_ANIMATIONS,
+  "agent-diego": BUSINESSMAN_ANIMATIONS,
+  "agent-sam-m": BUSINESSMAN_ANIMATIONS,
+  "agent-kit": BUSINESSMAN_ANIMATIONS,
+  "agent-murray": BUSINESSMAN_ANIMATIONS,
+
+  "agent-zoe": SALESMAN_ANIMATIONS,
+  "agent-aisha": SALESMAN_ANIMATIONS,
+  "agent-rosa": SALESMAN_ANIMATIONS,
+  "agent-talia": SALESMAN_ANIMATIONS,
+  "agent-sable": SALESMAN_ANIMATIONS,
+  "agent-mei": SALESMAN_ANIMATIONS,
+  "agent-luna": SALESMAN_ANIMATIONS,
+  "agent-jaz": SALESMAN_ANIMATIONS,
+  "agent-helen": SALESMAN_ANIMATIONS,
+  "agent-noor": SALESMAN_ANIMATIONS,
+  "agent-felix": SALESMAN_ANIMATIONS,
+  "agent-ada": SALESMAN_ANIMATIONS,
+  "agent-ocean": SALESMAN_ANIMATIONS,
+  "agent-bev": SALESMAN_ANIMATIONS,
+  "agent-yuki": SALESMAN_ANIMATIONS,
 };
 
 export function getAgentMarkerAnimation(agentId, zone) {

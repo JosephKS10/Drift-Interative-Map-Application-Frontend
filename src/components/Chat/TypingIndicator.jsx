@@ -1,8 +1,10 @@
+import AgentAvatar from "../Agent/AgentAvatar";
+
 export default function TypingIndicator({ agent }) {
   return (
     <div className="flex items-center gap-2 mb-3" style={{ animation: "fade-in-up 0.3s ease-out" }}>
       <div className="w-7 h-7 rounded-full flex items-center justify-center bg-slate-900 border border-slate-700 text-sm">
-        {agent.avatar}
+        <AgentAvatar agentId={agent.id} avatar={agent.avatar} scale={1.95} offsetY="-16%" />
       </div>
       <div className="bg-slate-800/80 border border-slate-700/30 rounded-2xl rounded-bl-md px-4 py-3">
         <div className="flex items-center gap-1.5">

@@ -1,4 +1,5 @@
 import { getMoodColor, getAgentColor } from "../../utils/agentAssets";
+import AgentAvatar from "./AgentAvatar";
 
 export default function AgentCard({ agent, isActive, onClick }) {
   const agentColor = getAgentColor(agent.id);
@@ -23,7 +24,7 @@ export default function AgentCard({ agent, isActive, onClick }) {
           }`}
           style={{ borderColor: isActive ? agentColor : "transparent" }}
         >
-          {agent.avatar}
+          <AgentAvatar agentId={agent.id} avatar={agent.avatar} scale={1.95} offsetY="-16%" />
         </div>
         {/* Mood dot */}
         <div

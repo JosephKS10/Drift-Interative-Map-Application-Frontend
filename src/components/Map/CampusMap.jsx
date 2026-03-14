@@ -4,6 +4,7 @@ import { useDrift } from "../../context/DriftContext";
 import AgentMarker from "./AgentMarker";
 import UserDot from "./UserDot";
 import { fetchEvents } from "../../services/api";
+import AgentAvatar from "../Agent/AgentAvatar";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || "YOUR_MAPBOX_TOKEN_HERE";
 
@@ -41,7 +42,13 @@ function AgentCard({ agent, proximity, onClose }) {
         <div className="flex items-center gap-3">
           <div className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-xl shrink-0 border border-white/[0.12]"
             style={{ background: "rgba(255,255,255,0.07)" }}>
-            {agent.avatar || agent.name?.[0] || "?"}
+            <AgentAvatar
+              agentId={agent.id}
+              avatar={agent.avatar || agent.name?.[0] || "?"}
+              zone={proximityZone}
+              scale={1.9}
+              offsetY="-18%"
+            />
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-sm font-semibold text-white/90 tracking-tight truncate">{agent.name}</div>
@@ -57,12 +64,20 @@ function AgentCard({ agent, proximity, onClose }) {
           >✕</button>
         </div>
 
-      {agent.avatarUrl && (
-        <img
-          src={agent.avatarUrl}
-          className="rounded-xl w-full h-40 object-cover"
-        />
-      )}
+      <div
+        className="mt-3 h-60 rounded-xl border border-white/[0.08] overflow-hidden flex items-center justify-center"
+        style={{ background: "radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.01) 100%)" }}
+      >
+        <div className="w-80 h-60">
+          <AgentAvatar
+            agentId={agent.id}
+            avatar={agent.avatar || agent.name?.[0] || "?"}
+            zone={proximityZone}
+            scale={3}
+            offsetY="-25%"
+          />
+        </div>
+      </div>
 
       <div className="flex items-center gap-2 text-sm">
         <span className={`w-2 h-2 rounded-full ${statusColor}`} />

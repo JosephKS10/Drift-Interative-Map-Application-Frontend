@@ -35,15 +35,15 @@ function AgentCard({ agent, proximity, onClose }) {
       <div
         className="rounded-3xl overflow-hidden shadow-2xl"
         style={{
-          background: "rgba(255,255,255,0.72)",
-          backdropFilter: "blur(32px) saturate(200%)",
+          background: "rgba(255,255,255,0.2)",
+          backdropFilter: "blur(80px)",
           WebkitBackdropFilter: "blur(32px) saturate(200%)",
           border: "1px solid rgba(255,255,255,0.6)",
           boxShadow: "0 24px 60px rgba(0,0,0,0.14), 0 1px 0 rgba(255,255,255,0.8) inset",
         }}
       >
         {/* ── Hero photo ── */}
-        <div className="relative h-44 w-full bg-gradient-to-br from-slate-200 to-slate-300 overflow-hidden">
+        <div className="relative h-44 w-full bg-black from-slate-200 to-slate-300 overflow-hidden">
           {agent.avatarUrl ? (
             <img
               src={agent.avatarUrl}
@@ -107,13 +107,13 @@ function AgentCard({ agent, proximity, onClose }) {
           <div className="flex flex-wrap gap-1.5">
             {agent.faculty && (
               <span className="text-[11px] font-medium text-slate-600
-                bg-slate-100/80 rounded-full px-2.5 py-1 border border-slate-200/60">
+                backdrop-blur-3xl rounded-full px-2.5 py-1 border border-slate-200/60">
                 {agent.faculty}
               </span>
             )}
             {agent.year && (
               <span className="text-[11px] font-medium text-slate-600
-                bg-slate-100/80 rounded-full px-2.5 py-1 border border-slate-200/60">
+                backdrop-blur-3xl rounded-full px-2.5 py-1 border border-slate-200/60">
                 Year {agent.year}
               </span>
             )}

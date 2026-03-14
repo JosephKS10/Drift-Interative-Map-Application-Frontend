@@ -28,9 +28,9 @@ export default function ChatHeader({ agent, onClose }) {
             className="w-2 h-2 rounded-full"
             style={{ background: moodColor }}
           />
-          <span className="text-[11px] text-slate-500 truncate">
-            {agent.activity || agent.mood}
-          </span>
+          <span className="text-slate-500 truncate max-w-[160px] text-xs">
+  {agent.activity || agent.mood}
+</span>
         </div>
       </div>
 

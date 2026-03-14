@@ -32,7 +32,7 @@ export default function ChatPanel({ agentId, chat, onClose }) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-slate-950 border-l border-slate-800/50">
+    <div className="h-full flex flex-col  border-l border-slate-800/50">
       {/* Header */}
       <ChatHeader agent={agent} onClose={onClose} />
 

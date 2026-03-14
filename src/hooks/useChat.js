@@ -1,18 +1,14 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 
-/**
- * useChat — manages chat state for conversations with agents.
- *
- * @param {object} socketRef - ref to Socket.IO instance from useSocket
- * @returns chat state + actions
- */
 export function useChat(socketRef) {
-  // Message history per agent: agentId → Array<{ role, content, timestamp }>
   const [histories, setHistories] = useState({});
   const [typing, setTyping] = useState(false);
   const [currentAgentId, setCurrentAgentId] = useState(null);
 
-  // Listen for socket events
+  // Store placeCards and nearbyPlaces per agent (from latest response)
+  const [placesData, setPlacesData] = useState({});
+  // agentId → { placeCards: [], nearbyPlaces: [], loading: false }
+
   useEffect(() => {
     const socket = socketRef?.current;
     if (!socket) return;
@@ -20,10 +16,27 @@ export function useChat(socketRef) {
     const onTyping = ({ agentId, typing: isTyping }) => {
       if (agentId === currentAgentId) {
         setTyping(isTyping);
+
+        // When typing starts, set places loading
+        if (isTyping) {
+          setPlacesData((prev) => ({
+            ...prev,
+            [agentId]: { ...prev[agentId], loading: true },
+          }));
+        }
       }
     };
 
-    const onResponse = ({ agentId, content, mood, mentionedAgents, mentionedPlaces, relationship }) => {
+    const onResponse = ({
+      agentId,
+      content,
+      mood,
+      mentionedAgents,
+      mentionedPlaces,
+      placeCards,
+      nearbyPlaces,
+      relationship,
+    }) => {
       if (!content) return;
 
       setHistories((prev) => ({
@@ -36,9 +49,21 @@ export function useChat(socketRef) {
             mood,
             mentionedAgents: mentionedAgents || [],
             mentionedPlaces: mentionedPlaces || [],
+            placeCards: placeCards || [],
+            nearbyPlaces: nearbyPlaces || [],
             timestamp: Date.now(),
           },
         ],
+      }));
+
+      // Update places data for this agent
+      setPlacesData((prev) => ({
+        ...prev,
+        [agentId]: {
+          placeCards: placeCards || [],
+          nearbyPlaces: nearbyPlaces || [],
+          loading: false,
+        },
       }));
 
       setTyping(false);
@@ -53,15 +78,16 @@ export function useChat(socketRef) {
     };
   }, [socketRef, currentAgentId]);
 
-  /**
-   * Start a chat session with an agent.
-   */
   const startChat = useCallback(
     (agentId) => {
       const socket = socketRef?.current;
       if (!socket) return;
-
       setCurrentAgentId(agentId);
+      // Clear previous places data for fresh start
+      setPlacesData((prev) => ({
+        ...prev,
+        [agentId]: { placeCards: [], nearbyPlaces: [], loading: false },
+      }));
       socket.emit("chat:start", { agentId }, (ack) => {
         if (!ack?.ok) console.error("[Chat] Start failed:", ack?.error);
       });
@@ -69,15 +95,11 @@ export function useChat(socketRef) {
     [socketRef]
   );
 
-  /**
-   * Send a message to the active agent.
-   */
   const sendMessage = useCallback(
     (agentId, message, userLocation) => {
       const socket = socketRef?.current;
       if (!socket || !message.trim()) return;
 
-      // Add user message to history immediately
       setHistories((prev) => ({
         ...prev,
         [agentId]: [
@@ -86,7 +108,6 @@ export function useChat(socketRef) {
         ],
       }));
 
-      // Emit to backend
       socket.emit("chat:message", {
         agentId,
         message: message.trim(),
@@ -96,14 +117,10 @@ export function useChat(socketRef) {
     [socketRef]
   );
 
-  /**
-   * End the chat session.
-   */
   const endChat = useCallback(
     (agentId) => {
       const socket = socketRef?.current;
       if (!socket) return;
-
       socket.emit("chat:end", { agentId });
       setCurrentAgentId(null);
       setTyping(false);
@@ -111,12 +128,14 @@ export function useChat(socketRef) {
     [socketRef]
   );
 
-  /**
-   * Get message history for a specific agent.
-   */
   const getHistory = useCallback(
     (agentId) => histories[agentId] || [],
     [histories]
+  );
+
+  const getPlacesData = useCallback(
+    (agentId) => placesData[agentId] || { placeCards: [], nearbyPlaces: [], loading: false },
+    [placesData]
   );
 
   return {
@@ -125,5 +144,6 @@ export function useChat(socketRef) {
     sendMessage,
     endChat,
     getHistory,
+    getPlacesData,
   };
 }

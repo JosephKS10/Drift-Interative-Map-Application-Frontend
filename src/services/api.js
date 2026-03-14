@@ -29,6 +29,10 @@ export function fetchAgents() {
   return request("/api/agents");
 }
 
+export function fetchEvents() {
+  return request("/api/events");
+}
+
 export function fetchAgentProfile(agentId) {
   return request(`/api/agents/${agentId}/profile`);
 }

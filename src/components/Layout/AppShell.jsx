@@ -32,7 +32,10 @@ export default function AppShell({ socketRef }) {
         onAgentClick={openChat}
         onMapClick={moveUser}
         socketRef={socketRef}
+        placesData={activeAgentId ? chat.getPlacesData(activeAgentId) : null}
+        isTyping={chat.typing}
       />
+
     </div>
 
     {/* ── Header (floating on top) ── */}

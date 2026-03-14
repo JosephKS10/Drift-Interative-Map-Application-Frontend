@@ -60,6 +60,7 @@ export function getMoodColor(mood) {
  * Agent theme colors (for border rings, accents).
  */
 export const AGENT_COLORS = {
+  // Clayton
   "agent-arjun": "#8b5cf6",
   "agent-zoe": "#3b82f6",
   "agent-marko": "#22c55e",
@@ -68,6 +69,28 @@ export const AGENT_COLORS = {
   "agent-jin": "#06b6d4",
   "agent-talia": "#ec4899",
   "agent-doug": "#84cc16",
+  // Melbourne
+  "agent-vinnie": "#ef4444",
+  "agent-sable": "#ec4899",
+  "agent-mei": "#f59e0b",
+  "agent-tram-tony": "#22c55e",
+  "agent-banksy": "#6366f1",
+  "agent-frankie": "#8b5cf6",
+  "agent-charlie": "#84cc16",
+  "agent-raj-m": "#f97316",
+  "agent-luna": "#06b6d4",
+  "agent-jaz": "#8b5cf6",
+  "agent-helen": "#6366f1",
+  "agent-diego": "#ef4444",
+  "agent-noor": "#f59e0b",
+  "agent-felix": "#ec4899",
+  "agent-sam-m": "#3b82f6",
+  "agent-ada": "#22c55e",
+  "agent-ocean": "#06b6d4",
+  "agent-kit": "#8b5cf6",
+  "agent-bev": "#f59e0b",
+  "agent-yuki": "#ec4899",
+  "agent-murray": "#84cc16",
 };
 
 export function getAgentColor(agentId) {

@@ -32,7 +32,7 @@ export function DriftProvider({ children }) {
 
   // ── Load Campus Data on Mount ──────────────────
   useEffect(() => {
-    fetchCampus("clayton")
+    fetchCampus("all")
       .then((data) => {
         setCampus(data);
         setAgents(data.agents);

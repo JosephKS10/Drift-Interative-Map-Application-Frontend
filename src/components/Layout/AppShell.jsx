@@ -96,7 +96,7 @@ export default function AppShell({ socketRef }) {
 
     {/* ── Chat Panel ── */}
     <div
-      className="absolute top-0 right-0 h-full backdrop-blur-xl z-20 transition-transform duration-300"
+      className="absolute top-0 right-0 h-full backdrop-blur-xl w-min z-20 transition-transform duration-300"
       style={{ transform: chatOpen ? "translateX(0)" : "translateX(100%)" }}
     >
       {activeAgentId && (

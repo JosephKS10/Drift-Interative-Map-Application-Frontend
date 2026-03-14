@@ -8,6 +8,8 @@ export default function ChatPanel({ agentId, chat, onClose }) {
   const { activeAgent, userLocation, openChat } = useDrift();
   const agent = activeAgent;
 
+  console.log(openChat, "openChat function from context");
+
   // Start the chat session when panel opens
   useEffect(() => {
     if (agentId) {

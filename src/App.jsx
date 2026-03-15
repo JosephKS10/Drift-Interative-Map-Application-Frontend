@@ -2,6 +2,7 @@ import { useDrift } from "./context/DriftContext";
 import { useSocket } from "./hooks/useSocket";
 import AppShell from "./components/Layout/AppShell";
 
+
 export default function App() {
   const { loading, error } = useDrift();
   const socketRef = useSocket();

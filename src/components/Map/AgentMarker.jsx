@@ -77,36 +77,25 @@ export default function AgentMarker({ agent, proximity, onClick, zoom = 15 }) {
         style={{ fontSize: size * 0.45 }}
       >
         {animationData ? (
-          <div
-            className="absolute inset-0"
-            style={{
-              // height: isHere ? "208%" : "auto" ,
-              overflow: isHere ? "clip" : "clip",
-
-              position: isHere ? "absolute" : 'fixed',
-              top: isHere ? "-80%" : "0",
-              bottom: isHere ? "0" : "0",
-              left: "0",
-              right: isHere ? "-11%" : "0",
-              borderRadius: isHere ? "0 50% 50% 0" : "50%",
-            }}
-          >
-            <Lottie
-              animationData={animationData}
-              loop
-              autoplay
-              className="absolute left-1/2 top-1/2 pointer-events-none"
-              style={{
-                width: `${animationScale * 100}%`,
-                height: `${animationScale * 100}%`,
-                transform: `translate(-50%, ${animationOffsetY})`,
-                
-              }}
-            />
-          </div>
-        ) : (
-          agent.avatar
-        )}
+  <div
+    className="absolute inset-0 overflow-hidden rounded-full"
+  >
+    <Lottie
+      animationData={animationData}
+      loop
+      autoplay
+      className="absolute left-1/2 pointer-events-none"
+      style={{
+        width: `${animationScale * 100}%`,
+        height: `${animationScale * 100}%`,
+        transform: `translateX(-50%)`,
+        top: animationOffsetY,
+      }}
+    />
+  </div>
+) : (
+  agent.avatar
+)}
       </div>
 
       {/* Name label */}

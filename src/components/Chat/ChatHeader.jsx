@@ -38,7 +38,7 @@ export default function ChatHeader({ agent, onClose }) {
       {/* Close button */}
       <button
         onClick={onClose}
-        className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-slate-800 transition-colors"
+        className="w-8 h-8 rounded-full flex items-center justify-center hover:text-slate-500 text-slate-300 bg-slate-800 transition-colors"
       >
         ✕
       </button>

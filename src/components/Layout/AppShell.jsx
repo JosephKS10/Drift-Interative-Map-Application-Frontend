@@ -25,14 +25,14 @@ export default function AppShell({ socketRef }) {
   const chat = useChat(socketRef);
   const { moveUser } = useProximity(socketRef);
 
-  const [activeCategory, setActiveCategory] = useState("events");
+  const [activeCategory, setActiveCategory] = useState("all");
 
   /*
   Randomly assign agents to categories once
   */
   const agentCategoryMap = useMemo(() => {
 
-    const categories = ["events","food","nature","life","deals"];
+    const categories = ["events","food","nature","life"];
 
     const shuffled = [...agents].sort(() => Math.random() - 0.5);
 
@@ -55,15 +55,12 @@ export default function AppShell({ socketRef }) {
   */
   const filteredAgents = useMemo(() => {
 
-    const categoryKey =
-      activeCategory === "events" ? "events" :
-      activeCategory === "food" ? "food" :
-      activeCategory === "nature" ? "nature" :
-      activeCategory === "life" ? "life" :
-      "deals";
+    if (activeCategory === "all") {
+      return agents;
+    }
 
     const filtered = agents.filter(
-      agent => agentCategoryMap[agent.id] === categoryKey
+      agent => agentCategoryMap[agent.id] === activeCategory
     );
 
     return filtered.slice(0,8);
@@ -107,36 +104,66 @@ export default function AppShell({ socketRef }) {
     {/* ── Category Buttons ── */}
     <div className="absolute left-4 bottom-4 z-20 flex flex-col gap-1.5">
 
-<div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+<div className="flex flex-wrap justify-center gap-2">
 
   <button
-  onClick={()=>setActiveCategory("events")}
-  className="py-1.5 px-2.5 text-sm rounded-lg bg-gray-100 dark:bg-neutral-700">
+    onClick={()=>setActiveCategory("all")}
+    className={`px-3 py-1.5 text-sm rounded-xl backdrop-blur-md border transition-all duration-200
+    ${
+      activeCategory==="all"
+        ? "bg-white/20 text-white border-white/30 shadow-lg"
+        : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+    }`}
+  >
+    All
+  </button>
+
+  <button
+    onClick={()=>setActiveCategory("events")}
+    className={`px-3 py-1.5 text-sm rounded-xl backdrop-blur-md border transition-all duration-200
+    ${
+      activeCategory==="events"
+        ? "bg-white/20 text-white border-white/30 shadow-lg"
+        : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+    }`}
+  >
     Events
   </button>
 
   <button
-  onClick={()=>setActiveCategory("food")}
-  className="py-1.5 px-2.5 text-sm rounded-lg bg-gray-100 dark:bg-neutral-700">
+    onClick={()=>setActiveCategory("food")}
+    className={`px-3 py-1.5 text-sm rounded-xl backdrop-blur-md border transition-all duration-200
+    ${
+      activeCategory==="food"
+        ? "bg-white/20 text-white border-white/30 shadow-lg"
+        : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+    }`}
+  >
     Food Spots
   </button>
 
   <button
-  onClick={()=>setActiveCategory("nature")}
-  className="py-1.5 px-2.5 text-sm rounded-lg bg-gray-100 dark:bg-neutral-700">
+    onClick={()=>setActiveCategory("nature")}
+    className={`px-3 py-1.5 text-sm rounded-xl backdrop-blur-md border transition-all duration-200
+    ${
+      activeCategory==="nature"
+        ? "bg-white/20 text-white border-white/30 shadow-lg"
+        : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+    }`}
+  >
     Nature
   </button>
 
   <button
-  onClick={()=>setActiveCategory("life")}
-  className="py-1.5 px-2.5 text-sm rounded-lg bg-gray-100 dark:bg-neutral-700">
+    onClick={()=>setActiveCategory("life")}
+    className={`px-3 py-1.5 text-sm rounded-xl backdrop-blur-md border transition-all duration-200
+    ${
+      activeCategory==="life"
+        ? "bg-white/20 text-white border-white/30 shadow-lg"
+        : "bg-white/10 text-white/70 border-white/10 hover:bg-white/20 hover:text-white"
+    }`}
+  >
     Life stuff
-  </button>
-
-  <button
-  onClick={()=>setActiveCategory("deals")}
-  className="py-1.5 px-2.5 text-sm rounded-lg bg-gray-100 dark:bg-neutral-700">
-    Deals
   </button>
 
 </div>

@@ -8,6 +8,7 @@ export default function ChatPanel({ agentId, chat, onClose }) {
   const { activeAgent, userLocation, openChat } = useDrift();
   const agent = activeAgent;
 
+  console.log(openChat, "openChat function from context");
 
   // Start the chat session when panel opens
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function ChatPanel({ agentId, chat, onClose }) {
   };
 
   return (
-    <div className="h-full backdrop-blur-[16px]  bg-black/50 flex flex-col  border-l border-slate-800/50">
+    <div className="h-full flex flex-col  border-l border-slate-800/50">
       {/* Header */}
       <ChatHeader agent={agent} onClose={onClose} />
 
